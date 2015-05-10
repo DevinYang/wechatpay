@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<style type="text/css">
+<!--
+.selected {
+	color: #FFFFFF;
+	background-color: #D5EEF2;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #553FFF;
+	border-bottom-color: #553FFF;
+}
+.noSelect {
+	color: #000000;
+	background-color: #FFFFFF;
+}
+.hotCityTitle {
+	clear: both;
+	color: #666666;
+	line-height: 20px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #999999;
+	margin-bottom: 5px;
+}
+.hotCityTitle span{
+	left: 100px;
+	top: 100px;
+	padding-left: 50px;
+}
+
+.hotCityKey {
+	position: absolute;
+	width: 30px;
+	top: 3px;
+	right: 4px;
+	background-color: #3366FF;
+	text-align: center;
+	font-size: 9pt;
+	height: 28px;
+}
+
+.hotCityKey a{
+	text-decoration: none;
+	display: block;
+	height: 28px;
+	width: 30px;
+	padding-top: 2px;
+	color: #FFFFFF;
+}
+.hotCityKey a:hover {
+	text-decoration: none;
+	color: #FFFFFF;
+	background-color: #003399;
+}
+
+#backDiv {
+	height: 100px;
+	width: 800px;
+	position: fixed;
+	z-index: 0;
+	left: 0px;
+	border: 1px solid #000000;
+	top: 0px;
+	background-color: #009999;
+	clip: rect(0px,auto,auto,0px);
+}
+#cityTitle .close {
+	position: absolute;
+	visibility: visible;
+	left: 245px;
+	background-image: url(../closeCity.gif);
+	margin: 0px;
+	padding: 0px;
+	top: 3px;
+	height: 12px;
+	width: 12px;
+	CURSOR: pointer;
+}
+.spanTextDropdown{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:101;
+	overflow:visible;
+	display:none;
+	font-size: 10pt;
+	border: 1px solid #999999;
+	background-color: #FFFFFF;
+	width: 210px;
+	padding: 5px;
+	}
+#cityTitle {
+	line-height: 20px;
+	background-color: #999999;
+	color: #FFFFFF;
+}
+#showCityTable {
+	width: 100%;
+	clear: both;
+}
+#showCityTable tr {
+	line-height: 20px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+#showCityTable td {
+	padding:0 5px
+}
+#showCityTable .py{
+	color: #CCCCCC;
+	font-size: 12px;
+}
+#showCityTable .rightTd {
+	text-align: right;
+	float: right;
+	color: #007CBA;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#showCityTable .leftTd {
+	float: left;
+	color: #007CBA;
+}
+.red1 {
+	color: #FF0000;
+}
+#noCityMsg {
+	color: #FF0000;
+	line-height: 20px;
+}
+.clear {
+	clear: both;
+}
+-->
+</style>
+</head>
+
+<body>
+</body>
+<!--<script type="text/javascript" src="http://www.csair.com/citylist/city.js"></script>-->
+<script type="text/javascript" src="city.js"></script>
+<script>
+//function $(id){return document.getElementById(id);}
+function abcClick(key){theTextBox.onfocus=GiveOptions;theTextBox.value=key;theTextBox.focus();}
+function addHandler(objText){var nav=navigator.userAgent.toLowerCase();var isNotSt=(nav.indexOf("chrome")!=-1||nav.indexOf("apple")!=-1||nav.indexOf("opera")!=-1)
+objText.onclick=GiveOptions;objText.onkeyup=GiveOptions;if(isNotSt)objText.onkeypress=GiveOptions;}
+var setIfTitleH=0
+function GiveOptions(e){if(window.parent.window.event){intKey=window.parent.window.event.keyCode;theTextBox=window.parent.event.srcElement;if(intKey==0){theTextBox.select();}}
+else{intKey=e.which;theTextBox=e.target;if(intKey==1){theTextBox.select();}}
+if(intKey==13){GrabHighlighted();theTextBox.blur();return false;}
+if(intKey==40){MoveHighlight(1);return false;}
+if(intKey==38){MoveHighlight(-1);return false;}
+searchKey(theTextBox.value);theTextBox.className="cityInputed";if(window.parent.window.event){window.parent.window.event.cancelBubble=true}else{e.cancelBubble=true}}
+function MoveHighlight(xDir){if(currentValueSelected>=0){newValue=parseInt(currentValueSelected)+parseInt(xDir);if(newValue>-1&&newValue<countForId){currentValueSelected=newValue;SetHighColor(null);}}}
+function SetHighColor(theTextBox){if(theTextBox){currentValueSelected=theTextBox.id.slice(theTextBox.id.indexOf("_")+1,theTextBox.id.length);}
+for(i=0;i<countForId;i++){document.getElementById('a_'+i).className="noSelect";}
+document.getElementById('a_'+currentValueSelected).className="selected";}
+function SetText(xVal){theTextBox.value=htmlKeyCity[xVal][0];window.parent.document.getElementById(theTextBox.id.slice(theTextBox.id.indexOf("_")+1,theTextBox.id.length)).value=htmlKeyCity[xVal][5];window.parent.document.getElementById("showCityIframe").style.display="none";currentValueSelected=-1;theTextBox.style.color="#00BE00";
+
+/*国际航线选择舱位*/
+var intCity = false;
+for(i=0;i<inputSite.length;i++){
+	try{
+		intCitystr = window.parent.document.getElementById(inputSite[i]).value
+		for(x in htmlKeyCity){
+			if(intCitystr == htmlKeyCity[x][0]){
+				if(htmlKeyCity[x][5]!="中国"||htmlKeyCity[x][0]=="台北"||htmlKeyCity[x][0]=="香港"||htmlKeyCity[x][0]=="澳门"){
+					intCity = true;
+					break;
+				}
+			}
+		}
+	}catch(err){
+		break;
+	}
+}
+try{intCity?window.parent.document.getElementById("cangwei").style.display="":window.parent.document.getElementById("cangwei").style.display="none";}catch(err){}/*end*/
+
+}
+function GrabHighlighted(){if(currentValueSelected>=0){xVal=document.getElementById("a_"+currentValueSelected).getAttribute("number");SetText(xVal);}}
+function fSetBg(obj){obj.style.backgroundColor='#F2F9C6';}
+function fReBg(obj){obj.style.backgroundColor='';}
+function searchKey(key)
+{var abcHtml="";var htmlShowCity="";key=key.toLowerCase();htmlKeyCity.length=0
+countForId=0;document.getElementById('showCity').style.display='block';
+if(theTextBox.value=="全拼/简拼/汉字"){theTextBox.value=""};
+var i,j,v,k=0;for(i=0;i<myArray.length;i++){var cityField=(myArray[i].toLowerCase()).split("|");for(j=0;j<5;j++){if(cityField[j].indexOf(key)==0&&key!=0){htmlKeyCity[k]=myArray[i].split("|");if(htmlKeyCity[k][0].length>5){tdMark=1};if((countForId==0)&&(currentValueSelected=-1)){currentValueSelected=0;};
+htmlShowCity=htmlShowCity+listCity(countForId,htmlKeyCity[k][0],htmlKeyCity[k][1]);countForId++;k++;break;}}}
+SetElementPosition(theTextBox);var htmlShowCityTable="<table id='showCityTable' border='0' cellspacing='0' cellpadding='0'>";if(countForId>0){htmlShowCity=abcHtml+htmlShowCityTable+htmlShowCity+"</table>";document.getElementById('showCity').innerHTML=htmlShowCity;document.getElementById('a_0').className="selected";ifHeight=12+countForId*20;theTextBox.style.color="#00BE00";}else{noHtnlKeyCityMsg="";if(theTextBox.value!=""){theTextBox.style.color="red";noHtnlKeyCityMsg="<div id='noCityMsg'>"+theTextBox.value+" 输入有误！</div>";ifHeight=20}else{ifHeight=0}
+var hotCityTitle="<div class='hotCityTitle'>热门城市推荐</div>";for(v=0;v<hotCity.length;v++){htmlKeyCity[v]=myArray[hotCity[v]].split("|");htmlShowCity=htmlShowCity+listCity(v,htmlKeyCity[v][0],htmlKeyCity[v][1]);}
+htmlShowCity=abcHtml+noHtnlKeyCityMsg+hotCityTitle+htmlShowCityTable+htmlShowCity+"</table>";document.getElementById('showCity').innerHTML=htmlShowCity;document.getElementById('a_0').className="selected";countForId=hotCity.length;currentValueSelected=0;ifHeight=ifHeight+38+countForId*20;}
+var iframe=window.parent.document.getElementById("showCityIframe");iframe.height=ifHeight;}
+
+function getCityNameBySan(san){
+var cityName="";for(i=0;i<myArray.length;i++){var city=(myArray[i]).split("|");if(san.toLowerCase()==city[4].toLowerCase()){cityName=city[0];break;}}
+return cityName;}
+function getSanByCityName(name){
+var san="";for(i=0;i<myArray.length;i++){var city=(myArray[i]).split("|");if(name.toLowerCase()==city[0].toLowerCase()){san=city[4];break;}}
+return san;}
+function listCity(cid,a,b){bStr=b.substr(0,1).toUpperCase()+b.substr(1,b.length).toLowerCase();var list="<tr style='CURSOR: pointer' number=\'"+cid+"\' id=\'a_"+cid+"\' onMouseOver='fSetBg(this)' onMouseOut='fReBg(this)' onclick=SetText(\'"+cid+"\')><td><span class='leftTd'>"+a+"</span><span class='rightTd'>"+bStr+"</span></td></tr>";return list;}
+function SetElementPosition(theTextBoxInt){
+var selectedPosX=0;var selectedPosY=0;var theElement=theTextBoxInt;
+if(!theElement)return;var theElemHeight=theElement.offsetHeight;var theElemWidth=theElement.offsetWidth;while(theElement!=null){selectedPosX+=theElement.offsetLeft;selectedPosY+=theElement.offsetTop;theElement=theElement.offsetParent;}
+xPosElement=window.parent.document.getElementById("showCityIframe");xPosElement.style.left=selectedPosX+'px';xPosElement.style.top=selectedPosY+theElemHeight+'px';xPosElement.style.display="block";}
+function HideTheBox(){
+
+window.parent.document.getElementById("showCityIframe").style.display="none";currentValueSelected=-1;
+}
+window.parent.document.onclick=function(){
+//alert(htmlKeyCity[0][0]);
+	if(!theTextBox){
+		return;
+	}
+
+	if(window.parent.document.getElementById("CalFrame")){
+		window.parent.document.getElementById("CalFrame").style.display="none";
+		
+	}
+	window.parent.document.getElementById("showCityIframe").style.display="none";
+	var parent=/^[A-Za-z]+$/;
+	if(parent.test(theTextBox.value)){
+		theTextBox.value=htmlKeyCity[0][0];
+		theTextBox.style.color="#00BE00"
+	}
+	if(theTextBox&&theTextBox.value==""){
+		theTextBox.value="全拼/简拼/汉字";
+		theTextBox.className="cityInput";
+		theTextBox.style.color="#c1c1c1";};}
+window.onload=function(){var elemSpan=document.createElement("span");elemSpan.id="showCity";elemSpan.className="spanTextDropdown";document.body.appendChild(elemSpan);for(i=0;i<inputSite.length;i++){try{addHandler(window.parent.document.getElementById(inputSite[i]));window.parent.document.getElementById(inputSite[i]).className="cityInput";if(window.parent.document.getElementById(inputSite[i]).value==""){window.parent.document.getElementById(inputSite[i]).value="全拼/简拼/汉字";window.parent.document.getElementById(inputSite[i]).style.color="#c1c1c1";}}catch(e){}}}
+</script>
+</html>
