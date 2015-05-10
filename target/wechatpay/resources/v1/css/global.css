@@ -1,0 +1,105 @@
+@CHARSET "UTF-8";
+
+/**表格样式*/
+body,td,select,input{font-family: "微软雅黑", "宋体", Arial, sans-serif; font-size: 12px; }
+/*****用于edit表格******/
+.tabg{border:1px solid #C4D8ED;}
+.tr1{
+	margin-top:0px; 
+	border-top:0px; 
+	padding:8px;
+	CLEAR: both;
+	width:100%;
+	height:24px;
+}
+.td1{
+	background:#F7F7FF;
+	text-align:right;
+	height:22px;
+	text-align:right;
+	border:1px solid #C4D8ED;
+	padding-right: 4px;
+
+}
+.td2{background:#FFFFFF;height:22px;text-align:left;border:1px solid #C4D8ED;padding-left:2px;}
+/**table input[type=text] {
+	height:18px; line-height:18px;
+    width:150px;
+    margin:.5px;
+	vertical-align: middle;
+}*/
+/*****非弹框页面button样式*****/
+.btn-all {
+  	background-image:url(../../images/button_edit_bg.gif);
+  	background-position: bottom left;
+  	background-repeat: x;
+  	cursor: pointer;
+	height: 24px;
+	width: 70px;
+	padding-top:1px;
+	border: #9A9A9A solid 1px;
+	color:#010101;
+}
+/*****用于弹框页面的button******/
+.but-save {
+	background-image:url(../../images/button_edit_bg.gif);
+	background-position: bottom left;
+  	background-repeat: x;
+	cursor: pointer;
+	height: 24px;
+	width: 50px;
+	padding-top:1px;
+	border: #9A9A9A solid 1px;
+	color:#010101;	
+}
+.but-search {
+	background-image:url(../../images/button_edit_bg.gif);
+	background-position: bottom left;
+  	background-repeat: x;
+	cursor: pointer;
+	height: 32px;
+	width: 65px;
+	padding-top:1px;
+	border: #9A9A9A solid 1px;
+	color:#010101;	
+}
+
+/* 文本框、下拉框、日期框、调整器都使用到这个 */
+.l-text{
+    height:20px; line-height:20px;
+    width:120px;
+    margin:.5px;
+}
+.l-text-search
+{
+    position:relative;
+    border:2px solid #AECAF0; height:30px; line-height:29px;
+    width:350px; background:white;
+}
+/* 多行文本框颜色 */ 
+.l-textarea{
+	border:1px solid #C4D8ED; 
+	margin:.5px;
+}
+/*输入校验css*/
+.x-form-text-invalid{
+	background: none repeat-x scroll center bottom transparent;
+    background-color: #FFFFFF;
+    background-image: url("../../images/invalid_line.gif");
+}
+/**********普通查询或者是分页查询的表格**********/
+.listtabg{
+	
+}
+/*表头*/
+.listthead{
+}
+.listtr{
+}
+
+/**********分页部分*************/
+.page{
+
+}
+
+	

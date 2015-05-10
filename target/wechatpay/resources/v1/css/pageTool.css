@@ -1,0 +1,42 @@
+ 	body{
+	  margin: 0;
+	  padding: 0;
+	  font-size: 14px;
+	  font-family: tahoma, arial;
+	  background: #fff;
+	 }
+	 .rightspan{
+	 	margin: 8px;
+	 	float: right;
+	 }
+	 table td{
+	 	height: 30px;
+	 }
+	.PagerView{
+	 color: #333;
+	 text-align: center;
+	 margin: 8px;
+	}
+	.PagerView span{
+	 color: #999;
+	 margin: 0 1px;
+	 padding: 3px 6px;
+	 border: 1px solid #ccc;
+	}
+	.PagerView span.on{
+	 color: #333;
+	 font-weight: bold;
+	 border: 1px solid #333;
+	}
+	.PagerView a{
+	 color: #00f;
+	 text-decoration: none;
+	}
+	.PagerView a span{
+	 border: 1px solid #66c;
+	 color: #33f;
+	}
+	.PagerView a:hover span{
+	 color: #f00;
+	 background: #ff9;
+	}
